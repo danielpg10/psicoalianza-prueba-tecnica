@@ -2,17 +2,28 @@
 
 @section('content')
 <div class="container py-4">
-    <div class="card shadow-sm border-0 rounded-3">
-        <div class="card-header bg-dark text-white py-3">
-            <h4 class="mb-0">Registrar Nuevo Empleado</h4>
+    <div class="bg-dark text-white p-4 rounded-top mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="h3 mb-0 fw-bold">Registrar Nuevo Empleado</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 bg-transparent p-0">
+                        <li class="breadcrumb-item"><a href="{{ route('employees.index') }}" class="text-light text-decoration-none">Empleados</a></li>
+                        <li class="breadcrumb-item active text-light" aria-current="page">Nuevo Empleado</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
+    </div>
+
+    <div class="card shadow border-0">
         <div class="card-body p-4">
             <form action="{{ route('employees.store') }}" method="POST" class="needs-validation" novalidate>
                 @csrf
                 
-                <div class="row g-3">
+                <div class="row g-4">
                     <div class="col-md-6">
-                        <label class="form-label">Nombres</label>
+                        <label class="form-label fw-bold">Nombres</label>
                         <input type="text" name="name" 
                                class="form-control @error('name') is-invalid @enderror" 
                                value="{{ old('name') }}" 
@@ -29,7 +40,7 @@
                     </div>
                     
                     <div class="col-md-6">
-                        <label class="form-label">Apellidos</label>
+                        <label class="form-label fw-bold">Apellidos</label>
                         <input type="text" name="surname" 
                                class="form-control @error('surname') is-invalid @enderror" 
                                value="{{ old('surname') }}" 
@@ -46,7 +57,7 @@
                     </div>
                     
                     <div class="col-md-6">
-                        <label class="form-label">Identificación</label>
+                        <label class="form-label fw-bold">Identificación</label>
                         <input type="text" name="identification" 
                                class="form-control @error('identification') is-invalid @enderror" 
                                value="{{ old('identification') }}" 
@@ -62,7 +73,7 @@
                     </div>
                     
                     <div class="col-md-6">
-                        <label class="form-label">Teléfono</label>
+                        <label class="form-label fw-bold">Teléfono</label>
                         <input type="tel" name="phone" 
                                class="form-control @error('phone') is-invalid @enderror" 
                                value="{{ old('phone') }}" 
@@ -78,7 +89,7 @@
                     </div>
                     
                     <div class="col-12">
-                        <label class="form-label">Dirección</label>
+                        <label class="form-label fw-bold">Dirección</label>
                         <input type="text" name="address" 
                                class="form-control @error('address') is-invalid @enderror" 
                                value="{{ old('address') }}"
@@ -94,7 +105,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">País</label>
+                        <label class="form-label fw-bold">País</label>
                         <select class="form-select @error('country_id') is-invalid @enderror" 
                                 id="country_id" name="country_id" required>
                             <option value="">Seleccione un país</option>
@@ -111,7 +122,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Ciudad</label>
+                        <label class="form-label fw-bold">Ciudad</label>
                         <select class="form-select @error('city_id') is-invalid @enderror" 
                                 id="city_id" name="city_id" required 
                                 {{ old('country_id') ? '' : 'disabled' }}>
@@ -131,26 +142,33 @@
                     </div>
 
                     <div class="col-12">
-                        <label class="form-label">Cargo</label>
-                        <div class="border rounded p-3">
-                            @foreach($positions as $position)
-                            <div class="form-check">
-                                <input type="radio"
-                                    class="form-check-input" 
-                                    name="positions[]" 
-                                    value="{{ $position->id }}"
-                                    id="position{{ $position->id }}"
-                                    {{ $position->isPresidenteOccupied() ? 'disabled' : '' }}
-                                    {{ in_array($position->id, old('positions', [])) ? 'checked' : '' }}
-                                    required>
-                                <label class="form-check-label" for="position{{ $position->id }}">
-                                    {{ $position->name }}
-                                    @if($position->isPresidenteOccupied())
-                                        <span class="badge bg-danger">Ocupado</span>
-                                    @endif
-                                </label>
+                        <label class="form-label fw-bold mb-3">Cargo</label>
+                        <div class="border rounded-3 p-4">
+                            <div class="row g-3">
+                                @foreach($positions as $position)
+                                <div class="col-md-4">
+                                    <div class="position-relative">
+                                        <input type="radio"
+                                            class="btn-check" 
+                                            name="positions[]" 
+                                            value="{{ $position->id }}"
+                                            id="position{{ $position->id }}"
+                                            {{ $position->isPresidenteOccupied() ? 'disabled' : '' }}
+                                            {{ in_array($position->id, old('positions', [])) ? 'checked' : '' }}
+                                            required>
+                                        <label class="btn btn-outline-secondary w-100 text-start position-relative {{ $position->isPresidenteOccupied() ? 'opacity-50' : '' }}" for="position{{ $position->id }}">
+                                            <span class="position-absolute top-50 start-0 translate-middle-y ms-2">
+                                                <i class="far fa-circle"></i>
+                                            </span>
+                                            <span class="ms-4">{{ $position->name }}</span>
+                                            @if($position->isPresidenteOccupied())
+                                                <span class="badge bg-danger position-absolute top-50 end-0 translate-middle-y me-2">Ocupado</span>
+                                            @endif
+                                        </label>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
-                            @endforeach
                         </div>
                         @error('positions')
                             <div class="text-danger mt-2">{{ $message }}</div>
@@ -158,7 +176,7 @@
                     </div>
                     
                     <div id="bossField" class="col-12" style="{{ old('is_president') ? 'display: none;' : '' }}">
-                        <label class="form-label">Jefe Inmediato</label>
+                        <label class="form-label fw-bold">Jefe Inmediato</label>
                         <select class="form-select @error('boss_id') is-invalid @enderror" 
                                 name="boss_id">
                             <option value="">Seleccione un jefe</option>
@@ -177,23 +195,24 @@
                         @enderror
                     </div>
 
-                    <div class="col-12 mt-4">
-                        <div class="alert alert-info d-flex align-items-center">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center border rounded-3 p-3 bg-light">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch"
-                                       name="is_president" id="is_president" style="transform: scale(1.4);"
+                                       name="is_president" id="is_president"
                                        {{ old('is_president') ? 'checked' : '' }}>
-                                <label class="form-check-label ms-2 fw-bold" for="is_president">
-                                    ¿Es el presidente de la empresa?
+                                <label class="form-check-label ms-2" for="is_president">
+                                    <span class="fw-bold">¿Es el presidente de la empresa?</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary">
-                        Guardar Empleado
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="{{ route('employees.index') }}" class="btn btn-outline-dark me-2">Cancelar</a>
+                    <button type="submit" class="btn btn-dark px-4">
+                        <i class="fas fa-save me-2"></i>Guardar Empleado
                     </button>
                 </div>
             </form>
