@@ -58,4 +58,11 @@ class CityController extends Controller
         return redirect()->route('cities.index')
             ->with('success', 'Ciudad eliminada correctamente');
     }
+    
+    public function show(City $city)
+    {
+        return response()->json([
+            'data' => $city->load('country') 
+        ]);
+    }
 }

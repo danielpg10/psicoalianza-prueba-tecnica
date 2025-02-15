@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateCountriesTable extends Migration
 {
@@ -15,9 +16,16 @@ class CreateCountriesTable extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->timestamps();
         });
+    
+        DB::table('countries')->insert([
+            ['name' => 'Colombia', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Argentina', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'México', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Ecuador', 'created_at' => now(), 'updated_at' => now()]
+        ]);
     }
 
     /**

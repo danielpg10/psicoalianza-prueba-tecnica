@@ -24,4 +24,4 @@ Route::get('/', function () {
 Route::resource('employees', EmployeeController::class);
 Route::resource('positions', PositionController::class);
 Route::resource('cities', CityController::class);
-Route::resource('contries', CountryController::class);
+Route::resource('countries', CountryController::class);
