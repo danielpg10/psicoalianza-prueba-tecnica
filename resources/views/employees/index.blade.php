@@ -40,9 +40,11 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead class="bg-light">
                         <tr>
-                            <th class="px-4 py-3">Empleado</th>
+                            <th class="px-4 py-3">ID/Nombre</th>
+                            <th class="py-3">Apellidos</th>
                             <th class="py-3">Identificación</th>
-                            <th class="py-3">Cargos</th>
+                            <th class="py-3">Dirección</th>
+                            <th class="py-3">Teléfono</th>
                             <th class="py-3">Ciudad</th>
                             <th class="py-3 text-end pe-4">Acciones</th>
                         </tr>
@@ -52,23 +54,24 @@
                         <tr>
                             <td class="px-4">
                                 <div class="d-flex align-items-center">
-                                    <div class="avatar-initial rounded-circle bg-dark text-white me-3">
+                                    <div class="avatar-initial rounded-circle bg-dark text-white me-3 position-relative">
                                         {{ strtoupper(substr($employee->name, 0, 1)) }}
+                                        <small class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle px-2" 
+                                               style="font-size: 0.6rem; transform: translate(30%, 30%);">
+                                            {{ $employee->id }}
+                                        </small>
                                     </div>
                                     <div>
-                                        <h6 class="mb-0 fw-bold">{{ $employee->name }} {{ $employee->surname }}</h6>
-                                        <small class="text-muted">ID: #{{ $employee->id }}</small>
+                                        <h6 class="mb-0 fw-bold">{{ $employee->name }}</h6>
                                     </div>
                                 </div>
                             </td>
-                            <td>{{ $employee->identification }}</td>
                             <td>
-                                @foreach($employee->positions as $position)
-                                    <span class="badge bg-dark text-white me-1 mb-1">
-                                        {{ $position->name }}
-                                    </span>
-                                @endforeach
+                                <h6 class="mb-0 fw-bold">{{ $employee->surname }}</h6>
                             </td>
+                            <td>{{ $employee->identification }}</td>
+                            <td>{{ $employee->address }}</td>
+                            <td>{{ $employee->phone }}</td>
                             <td>
                                 <i class="fas fa-map-marker-alt text-danger me-2"></i>
                                 {{ $employee->city->name }}
@@ -102,12 +105,13 @@
 <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 <style>
     .avatar-initial {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 500;
+        position: relative;
     }
     
     .table th {
@@ -115,11 +119,6 @@
         text-transform: uppercase;
         font-size: 0.75rem;
         letter-spacing: 0.5px;
-    }
-
-    .badge {
-        font-weight: 500;
-        padding: 0.5em 0.75em;
     }
 
     .btn-outline-dark:hover, 
@@ -137,8 +136,9 @@
         background-color: #343a40 !important;
     }
 
-    .card-header {
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+    .position-absolute {
+        min-width: 20px;
+        text-align: center;
     }
 
     .swal2-popup {
@@ -157,38 +157,12 @@
         color: #ffffff !important;
     }
 
-    .swal2-html-container {
-        font-size: 1rem !important;
-        color: #ffffff !important;
-    }
-
-    .swal2-icon {
-        border: none !important;
-        font-size: 4rem !important;
-    }
-
-    .swal2-confirm, .swal2-cancel {
-        border-radius: 12px !important;
-        padding: 12px 24px !important;
-        font-weight: 600 !important;
-        letter-spacing: 0.5px !important;
-        text-transform: uppercase !important;
-        transition: all 0.3s ease !important;
-    }
-
     .swal2-confirm {
         background-color: #dc3545 !important;
-        color: #ffffff !important;
     }
 
     .swal2-cancel {
         background-color: #6c757d !important;
-        color: #ffffff !important;
-    }
-
-    .swal2-confirm:hover, .swal2-cancel:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
     }
 </style>
 @endpush
